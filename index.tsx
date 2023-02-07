@@ -4,11 +4,23 @@ import { createRoot } from 'react-dom/client';
 
 import App from './App';
 
+const mount = document.getElementById('mount');
+const unmount = document.getElementById('unmount');
 const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+let root;
+mount.onclick = () => {
+  if (root) {
+    return;
+  }
+  root = createRoot(rootElement);
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  );
+};
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+unmount.onclick = () => {
+  root?.unmount();
+  root = undefined;
+};

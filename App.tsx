@@ -1,53 +1,89 @@
 import * as React from 'react';
 
 function Child() {
-  console.log('%c    Child: render start', 'color: MediumSpringGreen');
+  console.log('%c.....Child: render start', 'color: MediumSpringGreen');
 
   const [count, setCount] = React.useState(() => {
-    console.log('%c    Child: useState(() => 0)', 'color: tomato');
+    console.log('%c.....Child: useState(() => 0)', 'color: green');
     return 0;
   });
+  console.log(`%c.....Child: count: ${count}`, 'color: greenYellow');
 
   React.useEffect(() => {
-    console.log('%c    Child: useEffect(() => {})', 'color: LightCoral');
+    console.log('%c.....Child: useEffect(() => {})', 'color: Gold');
     return () => {
       console.log(
-        '%c    Child: useEffect(() => {}) cleanup 🧹',
-        'color: LightCoral'
+        '%c 🧹.....Child: useEffect(() => {}) cleanup',
+        'color: Gold'
       );
     };
   });
 
   React.useEffect(() => {
-    console.log(
-      '%c    Child: useEffect(() => {}, [])',
-      'color: MediumTurquoise'
-    );
+    console.log('%c.....Child: useEffect(() => {}, [])', 'color: Yellow');
     return () => {
       console.log(
-        '%c    Child: useEffect(() => {}, []) cleanup 🧹',
-        'color: MediumTurquoise'
+        '%c 🧹.....Child: useEffect(() => {}, []) cleanup',
+        'color: Yellow'
       );
     };
   }, []);
 
   React.useEffect(() => {
-    console.log('%c    Child: useEffect(() => {}, [count])', 'color: HotPink');
+    console.log(
+      `%c.....Child: useEffect(() => {}, [count: ${count}])`,
+      'color: Khaki'
+    );
     return () => {
       console.log(
-        '%c    Child: useEffect(() => {}, [count]) cleanup 🧹',
-        'color: HotPink'
+        `%c 🧹.....Child: useEffect(() => {}, [count: ${count}]) cleanup`,
+        'color: Khaki'
       );
     };
   }, [count]);
 
+  React.useLayoutEffect(() => {
+    console.log('%c.....Child: useLayoutEffect(() => {})', 'color: tomato');
+    return () => {
+      console.log(
+        '%c 🧹.....Child: useLayoutEffect(() => {}) cleanup',
+        'color: tomato'
+      );
+    };
+  });
+
+  React.useLayoutEffect(() => {
+    console.log(
+      '%c.....Child: useLayoutEffect(() => {}, [])',
+      'color: LightCoral'
+    );
+    return () => {
+      console.log(
+        '%c 🧹.....Child: useLayoutEffect(() => {}, []) cleanup',
+        'color: LightCoral'
+      );
+    };
+  }, []);
+
+  React.useLayoutEffect(() => {
+    console.log(
+      `%c.....Child: useLayoutEffect(() => {}, [count: ${count}])`,
+      'color: HotPink'
+    );
+    return () => {
+      console.log(
+        `%c 🧹.....Child: useLayoutEffect(() => {}, [count: ${count}]) cleanup`,
+        'color: HotPink'
+      );
+    };
+  }, [count]);
   const element = (
     <button onClick={() => setCount((previousCount) => previousCount + 1)}>
       {count}
     </button>
   );
 
-  console.log('%c    Child: render end', 'color: MediumSpringGreen');
+  console.log('%c.....Child: render end', 'color: MediumSpringGreen');
 
   return element;
 }
@@ -56,32 +92,66 @@ function App() {
   console.log('%cApp: render start', 'color: MediumSpringGreen');
 
   const [showChild, setShowChild] = React.useState(() => {
-    console.log('%cApp: useState(() => false)', 'color: tomato');
+    console.log('%cApp: useState(() => false)', 'color: green');
     return false;
   });
+  console.log(`%cApp: showChild: ${showChild}`, 'color: greenYellow');
 
   React.useEffect(() => {
-    console.log('%cApp: useEffect(() => {})', 'color: LightCoral');
+    console.log('%cApp: useEffect(() => {})', 'color: Gold');
     return () => {
-      console.log('%cApp: useEffect(() => {}) cleanup 🧹', 'color: LightCoral');
+      console.log('%c 🧹App: useEffect(() => {}) cleanup', 'color: Gold');
     };
   });
 
   React.useEffect(() => {
-    console.log('%cApp: useEffect(() => {}, [])', 'color: MediumTurquoise');
+    console.log('%cApp: useEffect(() => {}, [])', 'color: Yellow');
     return () => {
-      console.log(
-        '%cApp: useEffect(() => {}, []) cleanup 🧹',
-        'color: MediumTurquoise'
-      );
+      console.log('%c 🧹App: useEffect(() => {}, []) cleanup', 'color: Yellow');
     };
   }, []);
 
   React.useEffect(() => {
-    console.log('%cApp: useEffect(() => {}, [showChild])', 'color: HotPink');
+    console.log(
+      `%cApp: useEffect(() => {}, [showChild: ${showChild}])`,
+      'color: Khaki'
+    );
     return () => {
       console.log(
-        '%cApp: useEffect(() => {}, [showChild]) cleanup 🧹',
+        `%c 🧹App: useEffect(() => {}, [showChild: ${showChild}]) cleanup`,
+        'color: Khaki'
+      );
+    };
+  }, [showChild]);
+
+  React.useLayoutEffect(() => {
+    console.log('%cApp: useLayoutEffect(() => {})', 'color: tomato');
+    return () => {
+      console.log(
+        '%c 🧹App: useLayoutEffect(() => {}) cleanup',
+        'color: tomato'
+      );
+    };
+  });
+
+  React.useLayoutEffect(() => {
+    console.log('%cApp: useLayoutEffect(() => {}, [])', 'color: LightCoral');
+    return () => {
+      console.log(
+        '%c 🧹App: useLayoutEffect(() => {}, []) cleanup',
+        'color: LightCoral'
+      );
+    };
+  }, []);
+
+  React.useLayoutEffect(() => {
+    console.log(
+      `%cApp: useLayoutEffect(() => {}, [showChild: ${showChild}])`,
+      'color: HotPink'
+    );
+    return () => {
+      console.log(
+        `%c 🧹App: useLayoutEffect(() => {}, [showChild: ${showChild}]) cleanup`,
         'color: HotPink'
       );
     };
@@ -95,7 +165,7 @@ function App() {
           checked={showChild}
           onChange={(e) => setShowChild(e.target.checked)}
         />{' '}
-        show child
+        show child ({showChild ? 'Yes' : 'No'})
       </label>
       <div
         style={{
