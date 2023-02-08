@@ -1,161 +1,51 @@
 import * as React from 'react';
+import { logChild, logApp, useEffectLog, useLayoutEffectLog } from './utils';
 
 function Child() {
-  console.log('%c.....Child: render start', 'color: MediumSpringGreen');
+  logChild('render start', 'MediumSpringGreen');
 
   const [count, setCount] = React.useState(() => {
-    console.log('%c.....Child: useState(() => 0)', 'color: green');
+    logChild('useState(() => 0)', 'green');
     return 0;
   });
-  console.log(`%c.....Child: count: ${count}`, 'color: greenYellow');
 
-  React.useEffect(() => {
-    console.log('%c.....Child: useEffect(() => {})', 'color: Gold');
-    return () => {
-      console.log(
-        '%c 🧹.....Child: useEffect(() => {}) cleanup',
-        'color: Gold'
-      );
-    };
-  });
+  useEffectLog(logChild);
+  useEffectLog(logChild, []);
+  useEffectLog(logChild, [count], `[count: ${count}]`);
 
-  React.useEffect(() => {
-    console.log('%c.....Child: useEffect(() => {}, [])', 'color: Yellow');
-    return () => {
-      console.log(
-        '%c 🧹.....Child: useEffect(() => {}, []) cleanup',
-        'color: Yellow'
-      );
-    };
-  }, []);
+  useLayoutEffectLog(logChild);
+  useLayoutEffectLog(logChild, []);
+  useLayoutEffectLog(logChild, [count], `[count: ${count}]`);
 
-  React.useEffect(() => {
-    console.log(
-      `%c.....Child: useEffect(() => {}, [count: ${count}])`,
-      'color: Khaki'
-    );
-    return () => {
-      console.log(
-        `%c 🧹.....Child: useEffect(() => {}, [count: ${count}]) cleanup`,
-        'color: Khaki'
-      );
-    };
-  }, [count]);
-
-  React.useLayoutEffect(() => {
-    console.log('%c.....Child: useLayoutEffect(() => {})', 'color: tomato');
-    return () => {
-      console.log(
-        '%c 🧹.....Child: useLayoutEffect(() => {}) cleanup',
-        'color: tomato'
-      );
-    };
-  });
-
-  React.useLayoutEffect(() => {
-    console.log(
-      '%c.....Child: useLayoutEffect(() => {}, [])',
-      'color: LightCoral'
-    );
-    return () => {
-      console.log(
-        '%c 🧹.....Child: useLayoutEffect(() => {}, []) cleanup',
-        'color: LightCoral'
-      );
-    };
-  }, []);
-
-  React.useLayoutEffect(() => {
-    console.log(
-      `%c.....Child: useLayoutEffect(() => {}, [count: ${count}])`,
-      'color: HotPink'
-    );
-    return () => {
-      console.log(
-        `%c 🧹.....Child: useLayoutEffect(() => {}, [count: ${count}]) cleanup`,
-        'color: HotPink'
-      );
-    };
-  }, [count]);
   const element = (
-    <button onClick={() => setCount((previousCount) => previousCount + 1)}>
+    <button
+      id="counter"
+      onClick={() => setCount((previousCount) => previousCount + 1)}
+    >
       {count}
     </button>
   );
 
-  console.log('%c.....Child: render end', 'color: MediumSpringGreen');
+  logChild('render end', 'MediumSpringGreen');
 
   return element;
 }
 
 function App() {
-  console.log('%cApp: render start', 'color: MediumSpringGreen');
+  logApp('render start', 'MediumSpringGreen');
 
   const [showChild, setShowChild] = React.useState(() => {
-    console.log('%cApp: useState(() => false)', 'color: green');
+    logApp('useState(() => false)', 'green');
     return false;
   });
-  console.log(`%cApp: showChild: ${showChild}`, 'color: greenYellow');
 
-  React.useEffect(() => {
-    console.log('%cApp: useEffect(() => {})', 'color: Gold');
-    return () => {
-      console.log('%c 🧹App: useEffect(() => {}) cleanup', 'color: Gold');
-    };
-  });
+  useEffectLog(logApp);
+  useEffectLog(logApp, []);
+  useEffectLog(logApp, [showChild], `[showChild: ${showChild}]`);
 
-  React.useEffect(() => {
-    console.log('%cApp: useEffect(() => {}, [])', 'color: Yellow');
-    return () => {
-      console.log('%c 🧹App: useEffect(() => {}, []) cleanup', 'color: Yellow');
-    };
-  }, []);
-
-  React.useEffect(() => {
-    console.log(
-      `%cApp: useEffect(() => {}, [showChild: ${showChild}])`,
-      'color: Khaki'
-    );
-    return () => {
-      console.log(
-        `%c 🧹App: useEffect(() => {}, [showChild: ${showChild}]) cleanup`,
-        'color: Khaki'
-      );
-    };
-  }, [showChild]);
-
-  React.useLayoutEffect(() => {
-    console.log('%cApp: useLayoutEffect(() => {})', 'color: tomato');
-    return () => {
-      console.log(
-        '%c 🧹App: useLayoutEffect(() => {}) cleanup',
-        'color: tomato'
-      );
-    };
-  });
-
-  React.useLayoutEffect(() => {
-    console.log('%cApp: useLayoutEffect(() => {}, [])', 'color: LightCoral');
-    return () => {
-      console.log(
-        '%c 🧹App: useLayoutEffect(() => {}, []) cleanup',
-        'color: LightCoral'
-      );
-    };
-  }, []);
-
-  React.useLayoutEffect(() => {
-    console.log(
-      `%cApp: useLayoutEffect(() => {}, [showChild: ${showChild}])`,
-      'color: HotPink'
-    );
-    return () => {
-      console.log(
-        `%c 🧹App: useLayoutEffect(() => {}, [showChild: ${showChild}]) cleanup`,
-        'color: HotPink'
-      );
-    };
-  }, [showChild]);
+  useLayoutEffectLog(logApp);
+  useLayoutEffectLog(logApp, []);
+  useLayoutEffectLog(logApp, [showChild], `[showChild: ${showChild}]`);
 
   const element = (
     <React.Fragment>
@@ -165,7 +55,7 @@ function App() {
           checked={showChild}
           onChange={(e) => setShowChild(e.target.checked)}
         />{' '}
-        show child ({showChild ? 'Yes' : 'No'})
+        show child (<span id="show">{showChild ? 'Yes' : 'No'}</span>)
       </label>
       <div
         style={{
@@ -181,7 +71,7 @@ function App() {
     </React.Fragment>
   );
 
-  console.log('%cApp: render end', 'color: MediumSpringGreen');
+  logApp('render end', 'MediumSpringGreen');
 
   return element;
 }
